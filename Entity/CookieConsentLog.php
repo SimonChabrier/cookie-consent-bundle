@@ -21,16 +21,16 @@ class CookieConsentLog
     #[ORM\Column(type: 'integer')]
     private int $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 15)]
     private string $ipAddress;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 30)]
     private string $cookieConsentKey;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 15)]
     private string $cookieName;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 5)]
     private string $cookieValue;
 
     #[ORM\Column(type: 'datetime')]
