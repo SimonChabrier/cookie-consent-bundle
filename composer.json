@@ -31,12 +31,12 @@
             "/Tests/"
         ],
         "psr-4": {
-            "TonNamespace\\CookieConsentBundle\\": ""
+            "ConnectHolland\\CookieConsentBundle\\": ""
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "TonNamespace\\CookieConsentBundle\\Tests\\": "Tests/"
+            "ConnectHolland\\CookieConsentBundle\\Tests\\": "/Tests"
         }
     },
     "config": {
