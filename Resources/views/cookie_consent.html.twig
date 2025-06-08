@@ -14,7 +14,7 @@
     {% endblock %}
 
     {% block read_more %}
-        <a class="ch-cookie-consent__read-more" href="{% block read_more_link %}/confidentitalité{% endblock %}">{{ 'ch_cookie_consent.read_more'|trans({}, 'CHCookieConsentBundle') }}</a>
+        <a class="ch-cookie-consent__read-more" href="{% block read_more_link %}/page/confidentialite{% endblock %}">{{ 'ch_cookie_consent.read_more'|trans({}, 'CHCookieConsentBundle') }}</a>
     {% endblock %}
 
     {{ form_start(form, {'attr': {'class': 'ch-cookie-consent__form'}}) }}
