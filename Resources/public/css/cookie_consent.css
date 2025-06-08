@@ -147,6 +147,11 @@
   text-align: center;
   border-radius: 6px;
   box-shadow: 0 26px 10px -21px rgba(0, 0, 0, 0.28);
+  margin-top: 1rem;
+}
+
+.ch-cookie-consent__btn:hover {
+  background: linear-gradient(349.19deg, #cf1e34 0%, #ee365f 80%);
 }
 
 @media screen and (max-width: 641px) {
