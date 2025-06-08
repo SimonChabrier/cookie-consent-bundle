@@ -213,11 +213,11 @@
 }
 
 .ch-cookie-consent--simplified .ch-cookie-consent__category-group {
-  display: none;
+  /* display: none; */
 }
 
 .ch-cookie-consent--simplified .ch-cookie-consent__category-toggle {
-  display: none;
+  /* display: none; */
 }
 
 .ch-cookie-consent--simplified .ch-cookie-consent__btn-group {
