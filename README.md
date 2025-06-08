@@ -1,3 +1,20 @@
+# Forked Version: 1.0.0 compatible with Symfony 7.* and PHP 8.*
+
+This fork modernizes and adapts the original ConnectHolland CookieConsentBundle to be fully compatible with Symfony 7 and PHP 8.2+. The following changes have been made:
+
+- Replaced deprecated method calls (e.g., `getRootAlias()`) to comply with Symfony 7 and Doctrine updates.
+- Replaced all constructor property assignments with PHP 8+ promoted properties for cleaner, more concise code.
+- Added native type declarations for all properties and method signatures.
+- Migrated Doctrine mapping from annotations to native PHP 8 attributes.
+- Added a YAML example (`doctrine.yaml`) for configuring Doctrine mapping, since the bundle is not treated as a traditional Symfony bundle (`is_bundle: false`).
+- Adjusted Doctrine entity fields (e.g., reduced string lengths) to optimize database resource usage.
+- Verified and updated all event subscriber signatures to ensure full compatibility with Symfony 7’s event system.
+- Maintained full feature parity with the original bundle while bringing the codebase up to date with modern standards.
+- Light css updates for better styling on margins and borders.
+
+This fork is intended as a drop-in replacement for projects using recent versions of Symfony and PHP.
+
+
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ConnectHolland/cookie-consent-bundle/badges/quality-score.png?b=master&s=15b793ae2474fa313d343c43f30ce4f9aa594f00)](https://scrutinizer-ci.com/g/ConnectHolland/cookie-consent-bundle/?branch=master)
 [![Code Coverage](https://scrutinizer-ci.com/g/ConnectHolland/cookie-consent-bundle/badges/coverage.png?b=master&s=d8e84bcf2e3e5bed47d4c6aa4702f246de74dbdf)](https://scrutinizer-ci.com/g/ConnectHolland/cookie-consent-bundle/?branch=master)
 [![Build Status](https://scrutinizer-ci.com/g/ConnectHolland/cookie-consent-bundle/badges/build.png?b=master&s=bcccde957df75df8622fa346ba348dee002efebb)](https://scrutinizer-ci.com/g/ConnectHolland/cookie-consent-bundle/build-status/master)
@@ -158,4 +175,24 @@ You can override the templates by placing templaces inside you project as below.
 {% block intro %}
     Your custom intro
 {% endblock %}
+```
+
+#### Fork Update :  Doctrine mapping example for persisting cookie consent
+
+To enable the `CookieConsentLog` entity and persist logs in your database, update your `doctrine.yaml` with the following configuration:
+
+```yaml
+mappings:
+    CHCookieConsentBundle:
+        type: attribute
+        dir: "%kernel.project_dir%/vendor/connectholland/cookie-consent-bundle/Entity"
+        prefix: 'ConnectHolland\CookieConsentBundle\Entity'
+        alias: ch_cookie_consent_bundle
+        is_bundle: false
+```
+
+-   After adding this, update your schema:
+  
+```bash
+    bin/console doctrine:schema:update --force
 ```
