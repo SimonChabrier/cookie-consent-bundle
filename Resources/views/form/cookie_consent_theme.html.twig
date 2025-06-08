@@ -1,23 +1,22 @@
 {% block choice_row %}
-    <div class="ch-cookie-consent__category">
-        <div class="ch-cookie-consent__category-toggle">
+    <div class="mb-3">
+        <div class="form-check">
             {% for child in form %}
                 {% if not child.rendered %}
-                    {{- form_widget(child) -}}
-                    {{- form_label(child, null, {translation_domain: choice_translation_domain}) -}}
+                    {{ form_widget(child, {attr: {'class': 'form-check-input'}}) }}
+                    {{ form_label(child, null, {attr: {'class': 'form-check-label'}, translation_domain: choice_translation_domain}) }}
                 {% endif %}
             {% endfor %}
         </div>
-        <div class="ch-cookie-consent__category-information">
-            <h4 class="ch-cookie-consent__category-title">{{ ('ch_cookie_consent.'~name~'.title')|trans({}, 'CHCookieConsentBundle') }}</h4>
-            <p class="ch-cookie-consent__category-description">{{ ('ch_cookie_consent.'~name~'.description')|trans({}, 'CHCookieConsentBundle') }}</p>
+        <div class="mt-2">
+            <h4 class="h6">{{ ('ch_cookie_consent.'~name~'.title')|trans({}, 'CHCookieConsentBundle') }}</h4>
+            <p class="small text-muted">{{ ('ch_cookie_consent.'~name~'.description')|trans({}, 'CHCookieConsentBundle') }}</p>
         </div>
     </div>
 {% endblock %}
 
 {% block submit_row %}
-    <div class="ch-cookie-consent__btn-wrapper">
+    <div class="d-grid">
         {{ block('button_widget') }}
     </div>
 {% endblock %}
-
