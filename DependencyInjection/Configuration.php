@@ -21,12 +21,7 @@ class Configuration implements ConfigurationInterface
     {
         $treeBuilder = new TreeBuilder('ch_cookie_consent');
 
-        if (method_exists($treeBuilder, 'getRootNode')) {
-            $rootNode = $treeBuilder->getRootNode();
-        } else {
-            // BC layer for symfony/config 4.1 and older
-            $rootNode = /* @scrutinizer ignore-deprecated */ $treeBuilder->root('ch_cookie_consent');
-        }
+        $rootNode = $treeBuilder->getRootNode();
 
         $rootNode
             ->children()
