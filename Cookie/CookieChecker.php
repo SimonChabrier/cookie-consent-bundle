@@ -14,15 +14,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 
 class CookieChecker
 {
-    /**
-     * @var RequestStack
-     */
-    private $requestStack;
 
-    public function __construct(RequestStack $requestStack)
-    {
-        $this->requestStack = $requestStack;
-    }
+    public function __construct(private RequestStack $requestStack) {}
 
     /**
      * Check if cookie consent has already been saved.

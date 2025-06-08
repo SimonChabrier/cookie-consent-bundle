@@ -21,36 +21,18 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CookieConsentType extends AbstractType
 {
     /**
-     * @var CookieChecker
+     * @param CookieChecker $cookieChecker
+     * @param array<string> $cookieCategories
+     * @param bool          $cookieConsentSimplified
+     * @param bool          $csrfProtection
      */
-    protected $cookieChecker;
-
-    /**
-     * @var array
-     */
-    protected $cookieCategories;
-
-    /**
-     * @var bool
-     */
-    protected $cookieConsentSimplified;
-
-    /**
-     * @var bool
-     */
-    protected $csrfProtection;
-
     public function __construct(
-        CookieChecker $cookieChecker,
-        array $cookieCategories,
-        bool $cookieConsentSimplified = false,
-        bool $csrfProtection = true
-    ) {
-        $this->cookieChecker           = $cookieChecker;
-        $this->cookieCategories        = $cookieCategories;
-        $this->cookieConsentSimplified = $cookieConsentSimplified;
-        $this->csrfProtection          = $csrfProtection;
-    }
+        protected CookieChecker $cookieChecker,
+        protected array $cookieCategories,
+        protected bool $cookieConsentSimplified = false,
+        protected bool $csrfProtection = true
+    ) {}
+
 
     /**
      * Build the cookie consent form.

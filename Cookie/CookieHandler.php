@@ -17,15 +17,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CookieHandler
 {
-    /**
-     * @var bool
-     */
-    private $httpOnly;
 
-    public function __construct(bool $httpOnly)
-    {
-        $this->httpOnly = $httpOnly;
-    }
+    public function __construct(private bool $httpOnly) {}
 
     /**
      * Save chosen cookie categories in cookies.
