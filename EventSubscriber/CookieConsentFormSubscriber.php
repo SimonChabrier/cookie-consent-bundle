@@ -66,6 +66,11 @@ class CookieConsentFormSubscriber implements EventSubscriberInterface
     public function onResponse(KernelEvent $event): void
     {
 
+        // Only handle the main request, not sub-requests (e.g. AJAX requests).
+        if (!$event->isMainRequest()) {
+            return;
+        }
+
         if (!($event instanceof ResponseEvent)) {
             throw new \RuntimeException('No ResponseEvent class found');
         }
