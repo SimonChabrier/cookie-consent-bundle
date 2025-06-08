@@ -12,55 +12,29 @@ namespace ConnectHolland\CookieConsentBundle\Entity;
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity
- * @ORM\Table(name="ch_cookieconsent_log")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'ch_cookieconsent_log')]
 class CookieConsentLog
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     *
-     * @var int
-     */
-    protected $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: 'integer')]
+    private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @var string
-     */
-    protected $ipAddress;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $ipAddress;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @var string
-     */
-    protected $cookieConsentKey;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cookieConsentKey;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @var string
-     */
-    protected $cookieName;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cookieName;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     *
-     * @var string
-     */
-    protected $cookieValue;
+    #[ORM\Column(type: 'string', length: 255)]
+    private string $cookieValue;
 
-    /**
-     * @ORM\Column(type="datetime")
-     *
-     * @var DateTime
-     */
-    protected $timestamp;
+    #[ORM\Column(type: 'datetime')]
+    private DateTime $timestamp;
 
     public function getId(): int
     {
@@ -70,7 +44,6 @@ class CookieConsentLog
     public function setIpAddress(string $ipAddress): self
     {
         $this->ipAddress = $ipAddress;
-
         return $this;
     }
 
@@ -82,7 +55,6 @@ class CookieConsentLog
     public function setCookieConsentKey(string $cookieConsentKey): self
     {
         $this->cookieConsentKey = $cookieConsentKey;
-
         return $this;
     }
 
@@ -94,7 +66,6 @@ class CookieConsentLog
     public function setCookieName(string $cookieName): self
     {
         $this->cookieName = $cookieName;
-
         return $this;
     }
 
@@ -106,7 +77,6 @@ class CookieConsentLog
     public function setCookieValue(string $cookieValue): self
     {
         $this->cookieValue = $cookieValue;
-
         return $this;
     }
 
@@ -118,7 +88,6 @@ class CookieConsentLog
     public function setTimestamp(DateTime $timestamp): self
     {
         $this->timestamp = $timestamp;
-
         return $this;
     }
 
