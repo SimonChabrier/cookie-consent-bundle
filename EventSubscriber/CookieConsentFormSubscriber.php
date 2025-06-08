@@ -16,7 +16,6 @@ use ConnectHolland\CookieConsentBundle\Form\CookieConsentType;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
-use Symfony\Component\HttpFoundation\Cookie;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\KernelEvent;
@@ -25,33 +24,14 @@ use Symfony\Component\HttpKernel\KernelEvents;
 
 class CookieConsentFormSubscriber implements EventSubscriberInterface
 {
-    /**
-     * @var FormFactoryInterface
-     */
-    private $formFactory;
 
-    /**
-     * @var CookieLogger
-     */
-    private $cookieLogger;
 
-    /**
-     * @var CookieHandler
-     */
-    private $cookieHandler;
-
-    /**
-     * @var bool
-     */
-    private $useLogger;
-
-    public function __construct(FormFactoryInterface $formFactory, CookieLogger $cookieLogger, CookieHandler $cookieHandler, bool $useLogger)
-    {
-        $this->formFactory   = $formFactory;
-        $this->cookieLogger  = $cookieLogger;
-        $this->cookieHandler = $cookieHandler;
-        $this->useLogger     = $useLogger;
-    }
+    public function __construct(
+        private FormFactoryInterface $formFactory,
+        private CookieLogger $cookieLogger,
+        private CookieHandler $cookieHandler,
+        private bool $useLogger
+    ) {}
 
     public static function getSubscribedEvents(): array
     {
