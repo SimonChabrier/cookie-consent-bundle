@@ -1,16 +1,16 @@
 # Simon Chabrier - Forked Version: 1.0.0 compatible with Symfony 7.* and PHP 8.*
 
-This fork modernizes and adapts the original ConnectHolland CookieConsentBundle to be fully compatible with Symfony 7 and PHP 8.2+. The following improvements have been made:
-Replaced deprecated method calls (e.g., getRootAlias()) to comply with Symfony 7 and Doctrine ORM updates.
-Migrated all constructor property assignments to PHP 8+ promoted properties for cleaner and more concise code.
-Added native type declarations for all class properties and method signatures across the codebase.
-Replaced Doctrine annotations with native PHP 8 attributes for entity mapping.
-Added a doctrine.yaml example to the documentation for manually configuring Doctrine mapping, as the bundle is not treated as a traditional Symfony bundle (is_bundle: false).
-Optimized Doctrine entity fields by reducing string lengths where appropriate to limit unnecessary database resource consumption.
-Verified and updated all event subscriber method signatures to match Symfony 7’s event dispatching system.
-Maintained full feature parity with the original bundle while aligning the codebase with modern Symfony and PHP best practices.
-Applied light CSS refinements for improved margin and border rendering in the UI.
-See the "Doctrine mapping example for persisting cookie consent".
+- This fork modernizes and adapts the original ConnectHolland CookieConsentBundle to be fully compatible with Symfony 7 and PHP 8.2+. The following improvements have been made:
+- Replaced deprecated method calls (e.g., getRootAlias()) to comply with Symfony 7 and Doctrine ORM updates.
+- Migrated all constructor property assignments to PHP 8+ promoted properties for cleaner and more concise code.
+- Added native type declarations for all class properties and method signatures across the codebase.
+- Replaced Doctrine annotations with native PHP 8 attributes for entity mapping.
+- Added a doctrine.yaml example to the documentation for manually configuring Doctrine mapping, as the bundle is not treated as a traditional Symfony bundle (is_bundle: false).
+- Optimized Doctrine entity fields by reducing string lengths where appropriate to limit unnecessary database resource consumption.
+- Verified and updated all event subscriber method signatures to match Symfony 7’s event dispatching system.
+- Maintained full feature parity with the original bundle while aligning the codebase with modern Symfony and PHP best practices.
+- Applied light CSS refinements for improved margin and border rendering in the UI.
+- See the "Doctrine mapping example for persisting cookie consent".
 
 #### Doctrine mapping example for persisting cookie consent
 
