@@ -4,7 +4,7 @@
     <script src="{{ asset('bundles/chcookieconsent/js/cookie_consent.js') }}"></script>
 {% endblock %}
 
-<div class="ch-cookie-consent ch-cookie-consent--{{ theme }}-theme ch-cookie-consent--{{ position }} {% if simplified %}ch-cookie-consent--simplified{% endif %}">
+<div class="ch-cookie-consent ch-cookie-consent--{{ theme }}-theme ch-cookie-consent--{{ position }} {% if simplified %}ch-cookie-consent--simplified{% endif %}"{% if chcookieconsent_isCookieConsentSavedByUser() %} style="display:none"{% endif %}>
     {% block title %}
         <h3 class="ch-cookie-consent__title">{{ 'ch_cookie_consent.title'|trans({}, 'CHCookieConsentBundle') }}</h3>
     {% endblock %}
