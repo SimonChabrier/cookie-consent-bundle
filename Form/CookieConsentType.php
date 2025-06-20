@@ -79,10 +79,10 @@ class CookieConsentType extends AbstractType
                 'label_attr' => ['class' => 'checkbox-switch'],
                 'attr' => ['class' => 'form-check-input'],
                 'data'     => $this->cookieChecker->isCategoryAllowedByUser($category) ? 'true' : 'false',
-                'choices'  => [
-                    ['ch_cookie_consent.yes' => 'true'],
-                    ['ch_cookie_consent.no' => 'false'],
-                ],
+                // 'choices'  => [
+                //     ['ch_cookie_consent.yes' => 'true'],
+                //     ['ch_cookie_consent.no' => 'false'],
+                // ],
             ]);
         }
 
