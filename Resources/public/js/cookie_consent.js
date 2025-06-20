@@ -24,12 +24,11 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   if (manageBtn) {
-    manageBtn.addEventListener("click", () => {
-      console.warn("Manage cookies button clicked");
-      console.warn("cookieConsent", cookieConsent);
-      manageBtn.style.display = "none";
+    manageBtn.addEventListener('click', () => {
       if (cookieConsent) {
-        cookieConsent.style.display = "block";
+        const isHidden = cookieConsent.style.display === 'none' || getComputedStyle(cookieConsent).display === 'none';
+        cookieConsent.style.display = isHidden ? 'block' : 'none';
+        manageBtn.style.display = isHidden ? 'none' : 'block';
       }
     });
   }
