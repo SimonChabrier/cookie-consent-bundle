@@ -57,37 +57,6 @@
   }
 }
 
-/* .ch-cookie-consent__category-toggle input {
-  margin-right: 0.5rem;
-  position: relative;
-  width: 2.25rem;
-  height: 1.25rem;
-  appearance: none;
-  background-color: #adb5bd;
-  border-radius: 1.25rem;
-  transition: background-color 0.2s;
-}
-
-.ch-cookie-consent__category-toggle input::before {
-  content: "";
-  position: absolute;
-  top: 0.125rem;
-  left: 0.125rem;
-  width: 1rem;
-  height: 1rem;
-  background-color: #fff;
-  border-radius: 50%;
-  transition: transform 0.2s;
-}
-
-.ch-cookie-consent__category-toggle input:checked {
-  background-color: #223462;
-}
-
-.ch-cookie-consent__category-toggle input:checked::before {
-  transform: translateX(1rem);
-} */
-
 .checkbox-switch {
   margin: 0;
   cursor: pointer;
@@ -181,18 +150,6 @@
 
 .ch-cookie-consent--dark-theme .ch-cookie-consent__category:first-child {
   border-color: #fff;
-}
-
-.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input {
-  background-color: #6c757d;
-}
-
-.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input:checked {
-  background-color: #fff;
-}
-
-.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input:checked::before {
-  background-color: #000;
 }
 
 .ch-cookie-consent--dark-theme .checkbox-switch {
