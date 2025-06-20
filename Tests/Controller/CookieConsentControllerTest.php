@@ -93,11 +93,6 @@ class CookieConsentControllerTest extends TestCase
 
     public function testShowIfCookieConsentNotSet(): void
     {
-        $this->cookieChecker
-            ->expects($this->once())
-            ->method('isCookieConsentSavedByUser')
-            ->willReturn(false);
-
         $this->formFactory
             ->expects($this->once())
             ->method('create')
@@ -116,11 +111,6 @@ class CookieConsentControllerTest extends TestCase
 
     public function testShowIfCookieConsentNotSetWithLocale(): void
     {
-        $this->cookieChecker
-            ->expects($this->once())
-            ->method('isCookieConsentSavedByUser')
-            ->willReturn(false);
-
         $this->formFactory
             ->expects($this->once())
             ->method('create')
@@ -158,19 +148,16 @@ class CookieConsentControllerTest extends TestCase
 
     public function testShowIfCookieConsentNotSetWithCookieConsentSet(): void
     {
-        $this->cookieChecker
-            ->expects($this->once())
-            ->method('isCookieConsentSavedByUser')
-            ->willReturn(true);
-
         $this->formFactory
-            ->expects($this->never())
+            ->expects($this->once())
             ->method('create')
-            ->with(CookieConsentType::class);
+            ->with(CookieConsentType::class)
+            ->willReturn($this->createMock(FormInterface::class));
 
         $this->templating
-            ->expects($this->never())
-            ->method('render');
+            ->expects($this->once())
+            ->method('render')
+            ->willReturn('test');
 
         $response = $this->cookieConsentController->showIfCookieConsentNotSet(new Request());
 
