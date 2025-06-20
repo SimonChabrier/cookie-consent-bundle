@@ -177,7 +177,11 @@ check if user has saved any cookie preferences
 
 ## Customization
 ### Categories
-You can add or remove any category by changing the config and making sure there are translations available for these categories.
+You can add or remove any category by editing `config/packages/ch_cookie_consent.yaml`.
+Every entry in the `categories` array will automatically appear in the consent banner,
+so new cookie groups can be introduced without modifying any PHP code. Make sure
+translations exist for the keys `ch_cookie_consent.<category>.title` and
+`ch_cookie_consent.<category>.description`.
 
 ### Translations
 All texts can be altered via Symfony translations by overwriting the CHCookieConsentBundle translation files.

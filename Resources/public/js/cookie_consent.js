@@ -1,53 +1,66 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var cookieConsent = document.querySelector(".ch-cookie-consent");
-  var cookieConsentForm = document.querySelector(".ch-cookie-consent__form");
-  var cookieConsentFormBtn = document.querySelectorAll(".ch-cookie-consent__btn");
-  var cookieConsentCategoryDetails = document.querySelector(".ch-cookie-consent__category-group");
-  var cookieConsentCategoryDetailsToggle = document.querySelector(".ch-cookie-consent__toggle-details");
+document.addEventListener('DOMContentLoaded', () => {
+  const cookieConsent = document.querySelector('.ch-cookie-consent');
+  const manageBtn = document.querySelector('.ch-cookie-consent__manage-btn');
+  const cookieConsentForm = document.querySelector('.ch-cookie-consent__form');
+  const cookieConsentFormBtn = document.querySelectorAll('.ch-cookie-consent__btn');
+  const cookieConsentCategoryDetails = document.querySelector('.ch-cookie-consent__category-group');
+  const cookieConsentCategoryDetailsToggle = document.querySelector('.ch-cookie-consent__toggle-details');
 
   // If cookie consent is direct child of body, assume it should be placed on top of the site pushing down the rest of the website
-  if (cookieConsent && cookieConsent.parentNode.nodeName === "BODY") {
-    if (cookieConsent.classList.contains("ch-cookie-consent--top")) {
-      document.body.style.marginTop = cookieConsent.offsetHeight + "px";
+  if (cookieConsent && cookieConsent.parentNode.nodeName === 'BODY') {
+    if (cookieConsent.classList.contains('ch-cookie-consent--top')) {
+      document.body.style.marginTop = `${cookieConsent.offsetHeight}px`;
 
-      cookieConsent.style.position = "absolute";
-      cookieConsent.style.top = "0";
-      cookieConsent.style.left = "0";
+      cookieConsent.style.position = 'absolute';
+      cookieConsent.style.top = '0';
+      cookieConsent.style.left = '0';
     } else {
-      document.body.style.marginBottom = cookieConsent.offsetHeight + "px";
+      document.body.style.marginBottom = `${cookieConsent.offsetHeight}px`;
 
-      cookieConsent.style.position = "fixed";
-      cookieConsent.style.bottom = "0";
-      cookieConsent.style.left = "0";
+      cookieConsent.style.position = 'fixed';
+      cookieConsent.style.bottom = '0';
+      cookieConsent.style.left = '0';
     }
+  }
+
+  if (manageBtn) {
+    manageBtn.addEventListener('click', () => {
+      manageBtn.style.display = 'none';
+      if (cookieConsent) {
+        cookieConsent.style.display = 'block';
+      }
+    });
   }
 
   if (cookieConsentForm) {
     // Submit form via ajax
-    for (var i = 0; i < cookieConsentFormBtn.length; i++) {
-      var btn = cookieConsentFormBtn[i];
+    cookieConsentFormBtn.forEach((btn) => {
       btn.addEventListener(
-        "click",
-        function (event) {
+        'click',
+        (event) => {
           event.preventDefault();
 
-          var formAction = cookieConsentForm.action ? cookieConsentForm.action : location.href;
-          var xhr = new XMLHttpRequest();
+          const formAction = cookieConsentForm.action ? cookieConsentForm.action : location.href;
 
-          xhr.onload = function () {
-            if (xhr.status >= 200 && xhr.status < 300) {
-              cookieConsent.style.display = "none";
-              var buttonEvent = new CustomEvent("cookie-consent-form-submit-successful", {
-                detail: event.target
+          fetch(formAction, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/x-www-form-urlencoded',
+              'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: serializeForm(cookieConsentForm, event.target),
+          }).then((response) => {
+            if (response.ok) {
+              cookieConsent.style.display = 'none';
+              if (manageBtn) manageBtn.style.display = 'block';
+              const buttonEvent = new CustomEvent('cookie-consent-form-submit-successful', {
+                detail: event.target,
               });
               document.dispatchEvent(buttonEvent);
               // Force <head> refresh to update when using UXTurbo or Turbo
               window.location.reload();
             }
-          };
-          xhr.open("POST", formAction);
-          xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-          xhr.send(serializeForm(cookieConsentForm, event.target));
+          });
 
           // Clear all styles from body to prevent the white margin at the end of the page
           document.body.style.marginBottom = null;
@@ -55,44 +68,43 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         false
       );
-    }
+    });
   }
 
   if (cookieConsentCategoryDetails && cookieConsentCategoryDetailsToggle) {
-    cookieConsentCategoryDetailsToggle.addEventListener("click", function () {
-      var detailsIsHidden = cookieConsentCategoryDetails.style.display !== "block";
-      cookieConsentCategoryDetails.style.display = detailsIsHidden ? "block" : "none";
-      cookieConsentCategoryDetailsToggle.querySelector(".ch-cookie-consent__toggle-details-hide").style.display = detailsIsHidden ? "block" : "none";
-      cookieConsentCategoryDetailsToggle.querySelector(".ch-cookie-consent__toggle-details-show").style.display = detailsIsHidden ? "none" : "block";
+    cookieConsentCategoryDetailsToggle.addEventListener('click', () => {
+      const detailsIsHidden = cookieConsentCategoryDetails.style.display !== 'block';
+      cookieConsentCategoryDetails.style.display = detailsIsHidden ? 'block' : 'none';
+      cookieConsentCategoryDetailsToggle
+        .querySelector('.ch-cookie-consent__toggle-details-hide')
+        .style.display = detailsIsHidden ? 'block' : 'none';
+      cookieConsentCategoryDetailsToggle
+        .querySelector('.ch-cookie-consent__toggle-details-show')
+        .style.display = detailsIsHidden ? 'none' : 'block';
     });
   }
 });
 
-function serializeForm(form, clickedButton) {
-  var serialized = [];
+const serializeForm = (form, clickedButton) => {
+  const formData = new FormData(form);
+  formData.append(clickedButton.getAttribute('name'), '');
 
-  for (var i = 0; i < form.elements.length; i++) {
-    var field = form.elements[i];
-
-    if ((field.type !== "checkbox" && field.type !== "radio" && field.type !== "button") || field.checked) {
-      serialized.push(encodeURIComponent(field.name) + "=" + encodeURIComponent(field.value));
-    }
+  const params = new URLSearchParams();
+  for (const [key, value] of formData.entries()) {
+    params.append(key, value);
   }
 
-  serialized.push(encodeURIComponent(clickedButton.getAttribute("name")) + "=");
+  return params.toString();
+};
 
-  return serialized.join("&");
-}
-
-if (typeof window.CustomEvent !== "function") {
-  function CustomEvent(event, params) {
-    params = params || { bubbles: false, cancelable: false, detail: undefined };
-    var evt = document.createEvent("CustomEvent");
+if (typeof window.CustomEvent !== 'function') {
+  const CustomEventPolyfill = (event, params = { bubbles: false, cancelable: false, detail: undefined }) => {
+    const evt = document.createEvent('CustomEvent');
     evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
     return evt;
-  }
+  };
 
-  CustomEvent.prototype = window.Event.prototype;
+  CustomEventPolyfill.prototype = window.Event.prototype;
 
-  window.CustomEvent = CustomEvent;
+  window.CustomEvent = CustomEventPolyfill;
 }

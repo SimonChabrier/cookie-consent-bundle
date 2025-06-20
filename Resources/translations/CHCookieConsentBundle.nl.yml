@@ -21,3 +21,4 @@ ch_cookie_consent:
     use_all_cookies: 'Sta alle cookies toe'
     show_details: 'Toon details'
     hide_details: 'Verberg details'
+    manage_preferences: 'Cookievoorkeuren aanpassen'

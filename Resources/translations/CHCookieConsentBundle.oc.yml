@@ -21,3 +21,4 @@ ch_cookie_consent:
     use_all_cookies: 'Acceptar totes los cookies'
     show_details: 'Afichar los detalhs'
     hide_details: 'Amagar los detalhs'
+    manage_preferences: 'Gerir las preferéncias de cookies'
