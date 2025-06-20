@@ -13,6 +13,7 @@ use ConnectHolland\CookieConsentBundle\Cookie\CookieHandler;
 use ConnectHolland\CookieConsentBundle\Cookie\CookieLogger;
 use ConnectHolland\CookieConsentBundle\EventSubscriber\CookieConsentFormSubscriber;
 use ConnectHolland\CookieConsentBundle\Form\CookieConsentType;
+use ConnectHolland\CookieConsentBundle\Enum\CookieNameEnum;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -134,6 +135,44 @@ class CookieConsentFormSubscriberTest extends TestCase
 
         $cookieConsentFormSubscriber = new CookieConsentFormSubscriber($this->formFactoryInterface, $this->cookieLogger, $this->cookieHandler, false);
         $cookieConsentFormSubscriber->onResponse($this->createMock(KernelEvent::class));
+    }
+
+    public function testGetCookieConsentKeyGeneratesRandomHexString(): void
+    {
+        $request = new Request();
+
+        $cookieConsentFormSubscriber = new CookieConsentFormSubscriber(
+            $this->formFactoryInterface,
+            $this->cookieLogger,
+            $this->cookieHandler,
+            true
+        );
+
+        $reflectionMethod = new \ReflectionMethod($cookieConsentFormSubscriber, 'getCookieConsentKey');
+        $reflectionMethod->setAccessible(true);
+        $key = $reflectionMethod->invoke($cookieConsentFormSubscriber, $request);
+
+        $this->assertMatchesRegularExpression('/^[0-9a-f]{32}$/', $key);
+    }
+
+    public function testGetCookieConsentKeyReturnsExistingKey(): void
+    {
+        $existingKey = 'existing-key';
+        $request = new Request();
+        $request->cookies->set(CookieNameEnum::COOKIE_CONSENT_KEY_NAME, $existingKey);
+
+        $cookieConsentFormSubscriber = new CookieConsentFormSubscriber(
+            $this->formFactoryInterface,
+            $this->cookieLogger,
+            $this->cookieHandler,
+            true
+        );
+
+        $reflectionMethod = new \ReflectionMethod($cookieConsentFormSubscriber, 'getCookieConsentKey');
+        $reflectionMethod->setAccessible(true);
+        $key = $reflectionMethod->invoke($cookieConsentFormSubscriber, $request);
+
+        $this->assertSame($existingKey, $key);
     }
 
     /**
