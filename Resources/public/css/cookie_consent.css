@@ -46,10 +46,8 @@
 }
 
 .ch-cookie-consent__category-toggle {
-  display: -ms-flexbox;
   display: flex;
-  -ms-flex-align: start;
-  align-items: flex-start;
+  align-items: center;
 }
 
 @media screen and (max-width: 641px) {
@@ -59,40 +57,39 @@
 }
 
 .ch-cookie-consent__category-toggle input {
-  opacity: 0;
-  position: absolute;
-  left: -10000px;
+  margin-right: 0.5rem;
+  position: relative;
+  width: 2.25rem;
+  height: 1.25rem;
+  appearance: none;
+  background-color: #adb5bd;
+  border-radius: 1.25rem;
+  transition: background-color 0.2s;
 }
 
-.ch-cookie-consent__category-toggle input + label {
-  background-repeat: no-repeat;
-  background-position: 45px center;
-  background-color: #fff;
-  color: #223462;
-  border: 1px solid #223462;
-  transition: all 0.2s;
-  display: inline-block;
-  margin-right: 15px;
-  padding: 6px 28px 6px 10px;
-  cursor: pointer;
-  border-radius: 6px;
-  width: 75px;
-}
-
-.ch-cookie-consent__category-toggle input + label::before,
-.ch-cookie-consent__category-toggle input + label::after {
+.ch-cookie-consent__category-toggle input::before {
   content: "";
+  position: absolute;
+  top: 0.125rem;
+  left: 0.125rem;
+  width: 1rem;
+  height: 1rem;
+  background-color: #fff;
+  border-radius: 50%;
+  transition: transform 0.2s;
 }
 
-.ch-cookie-consent__category-toggle input:checked + label,
-.ch-cookie-consent__category-toggle input + label:hover {
+.ch-cookie-consent__category-toggle input:checked {
   background-color: #223462;
-  color: #fff;
-  border-color: #fff;
 }
 
-.ch-cookie-consent__category-toggle input:checked + label {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath fill='#fff' d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+.ch-cookie-consent__category-toggle input:checked::before {
+  transform: translateX(1rem);
+}
+
+.checkbox-switch {
+  margin: 0;
+  cursor: pointer;
 }
 
 .ch-cookie-consent__category-title {
@@ -185,21 +182,20 @@
   border-color: #fff;
 }
 
-.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input + label {
-  background-color: #000;
-  color: #fff;
-  border-color: #fff;
+.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input {
+  background-color: #6c757d;
 }
 
-.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input:checked + label,
-.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input + label:hover {
+.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input:checked {
   background-color: #fff;
-  color: #000;
-  border-color: #000;
 }
 
-.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input:checked + label {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3Cpath fill='#000' d='M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z'/%3E%3C/svg%3E");
+.ch-cookie-consent--dark-theme .ch-cookie-consent__category-toggle input:checked::before {
+  background-color: #000;
+}
+
+.ch-cookie-consent--dark-theme .checkbox-switch {
+  color: #fff;
 }
 
 .ch-cookie-consent--dark-theme .ch-cookie-consent__category-title {
