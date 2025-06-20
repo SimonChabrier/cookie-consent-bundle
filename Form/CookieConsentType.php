@@ -9,14 +9,15 @@ declare(strict_types=1);
 
 namespace ConnectHolland\CookieConsentBundle\Form;
 
-use ConnectHolland\CookieConsentBundle\Cookie\CookieChecker;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use ConnectHolland\CookieConsentBundle\Cookie\CookieChecker;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class CookieConsentType extends AbstractType
 {
@@ -40,16 +41,35 @@ class CookieConsentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         foreach ($this->cookieCategories as $category) {
-            $builder->add($category, ChoiceType::class, [
-                'expanded' => true,
-                'multiple' => false,
-                'data'     => $this->cookieChecker->isCategoryAllowedByUser($category) ? 'true' : 'false',
-                'choices'  => [
-                    ['ch_cookie_consent.yes' => 'true'],
-                    ['ch_cookie_consent.no' => 'false'],
-                ],
+            // $builder->add($category, ChoiceType::class, [
+            //     'expanded' => true,
+            //     'multiple' => false,
+            //     'data'     => $this->cookieChecker->isCategoryAllowedByUser($category) ? 'true' : 'false',
+            //     'choices'  => [
+            //         ['ch_cookie_consent.yes' => 'true'],
+            //         ['ch_cookie_consent.no' => 'false'],
+            //     ],
+            // ]);
+            $builder->add($category, CheckboxType::class, [
+                'required'  => false,
+                'data'      => $this->cookieChecker->isCookieConsentSavedByUser()
+                    ? $this->cookieChecker->isCategoryAllowedByUser($category)
+                    : true,
+                'label_attr' => ['class' => 'checkbox-switch'],
+                'attr'       => ['class' => 'form-check-input'],
             ]);
         }
+
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event): void {
+            $data = $event->getData();
+
+            foreach ($this->cookieCategories as $category) {
+                $data[$category] = ($data[$category] ?? false) ? 'true' : 'false';
+            }
+
+            $event->setData($data);
+        });
+
 
         if ($this->cookieConsentSimplified === false) {
             $builder->add('save', SubmitType::class, ['label' => 'ch_cookie_consent.save', 'attr' => ['class' => 'btn ch-cookie-consent__btn']]);
