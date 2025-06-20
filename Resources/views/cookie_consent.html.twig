@@ -40,11 +40,8 @@
     {{ form_end(form) }}
 </div>
 {% if chcookieconsent_isCookieConsentSavedByUser() %}
-    <button type="button" class="ch-cookie-consent__manage-btn">
-        {{ 'ch_cookie_consent.manage_preferences'|trans({}, 'CHCookieConsentBundle') }}
+    <button type="button" class="ch-cookie-consent__manage-btn" aria-label="{{ 'ch_cookie_consent.manage_preferences'|trans({}, 'CHCookieConsentBundle') }}">
+        <i class="bi bi-cookie"></i>
     </button>
-    {# <button type="button" class="ch-cookie-consent__manage-btn" aria-label="{{ 'ch_cookie_consent.manage_preferences'|trans({}, 'CHCookieConsentBundle') }}">
-    <i class="bi bi-cookie"></i>
-</button> #}
 
 {% endif %}
