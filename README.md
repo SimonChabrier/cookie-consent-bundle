@@ -140,6 +140,22 @@ If you want to load the cookie consent with a specific locale you can pass the l
 {{ render_esi(path('ch_cookie_consent.show_if_cookie_consent_not_set', { 'locale' : app.request.locale })) }}
 ```
 
+### Displaying the banner in hidden state
+To allow users to reopen the consent banner later, load the fragment
+containing the manage button everywhere but keep the banner itself hidden.
+The bundled JavaScript will reveal the banner when the **Manage cookie
+preferences** button is clicked.
+
+```twig
+{# Hidden fragment providing the manage button #}
+<div style="display:none">
+    {{ render_esi(path('ch_cookie_consent.show')) }}
+</div>
+
+{# Visible banner for first time visitors only #}
+{{ render_esi(path('ch_cookie_consent.show_if_cookie_consent_not_set')) }}
+```
+
 ### Cookies
 When a user submits the form the preferences are saved as cookies. The cookies have a lifetime of 1 year. The following cookies are saved:
 - **Cookie_Consent**: date of submit
