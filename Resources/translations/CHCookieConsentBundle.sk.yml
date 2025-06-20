@@ -21,3 +21,4 @@ ch_cookie_consent:
     use_all_cookies: 'Povoliť všetky cookies'
     show_details: 'Zobraziť podrobnosti'
     hide_details: 'Skryť podrobnosti'
+    manage_preferences: 'Spravovať nastavenia cookies'

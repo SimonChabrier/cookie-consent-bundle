@@ -229,3 +229,15 @@
   margin-top: 0;
   margin-bottom: 1rem;
 }
+
+.ch-cookie-consent__manage-btn {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 99999;
+  cursor: pointer;
+  background: linear-gradient(349.19deg, #cf1e34 0%, #ee365f 100%);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 6px;
+}
