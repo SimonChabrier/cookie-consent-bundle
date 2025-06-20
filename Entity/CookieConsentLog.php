@@ -24,7 +24,7 @@ class CookieConsentLog
     #[ORM\Column(type: 'string', length: 15)]
     private string $ipAddress;
 
-    #[ORM\Column(type: 'string', length: 30)]
+    #[ORM\Column(type: 'string', length: 120)]
     private string $cookieConsentKey;
 
     #[ORM\Column(type: 'string', length: 15)]
