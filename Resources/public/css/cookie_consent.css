@@ -233,11 +233,22 @@
 .ch-cookie-consent__manage-btn {
   position: fixed;
   bottom: 20px;
-  right: 20px;
-  z-index: 99999;
-  cursor: pointer;
-  background: linear-gradient(349.19deg, #cf1e34 0%, #ee365f 100%);
+  left: 2.5rem;
+  z-index: 1030;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(44 62 80);
   color: #fff;
-  padding: 10px 20px;
-  border-radius: 6px;
+  border: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+}
+
+.ch-cookie-consent__manage-btn:hover {
+  background: rgb(44, 67, 80);
 }
