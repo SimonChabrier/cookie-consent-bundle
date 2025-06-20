@@ -40,37 +40,17 @@ class CookieConsentType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        // foreach ($this->cookieCategories as $category) {
-        //     $builder->add($category, ChoiceType::class, [
-        //         'expanded' => true,
-        //         'multiple' => false,
-        //         'data'     => $this->cookieChecker->isCategoryAllowedByUser($category) ? 'true' : 'false',
-        //         'choices'  => [
-        //             ['ch_cookie_consent.yes' => 'true'],
-        //             ['ch_cookie_consent.no' => 'false'],
-        //         ],
-        //     ]);
-        // }
-
         foreach ($this->cookieCategories as $category) {
-            $builder->add($category, CheckboxType::class, [
-                'label' => "ch_cookie_consent.$category",
-                'data' => $this->cookieChecker->isCategoryAllowedByUser($category), // true/false par défaut
-                'attr' => ['class' => 'form-check-input'],
-                'label_attr' => ['class' => 'checkbox-switch'],
-                'row_attr' => ['class' => 'form-check form-switch ch-cookie-consent__category-toggle'],
+            $builder->add($category, ChoiceType::class, [
+                'expanded' => true,
+                'multiple' => false,
+                'data'     => $this->cookieChecker->isCategoryAllowedByUser($category) ? 'true' : 'false',
+                'choices'  => [
+                    ['ch_cookie_consent.yes' => 'true'],
+                    ['ch_cookie_consent.no' => 'false'],
+                ],
             ]);
         }
-
-        // on écoute l'événement PRE_SUBMIT pour gérer les données soumises et définir si ch_cookie_consent.yes ou ch_cookie_consent.no en fonction de l'état des cases à cocher
-        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
-            $data = $event->getData();
-            foreach ($this->cookieCategories as $category) {
-                // Si la case est cochée, on met 'true', sinon 'false'
-                $data[$category] = isset($data[$category]) ? 'ch_cookie_consent.yes' : 'ch_cookie_consent.no';
-            }
-            $event->setData($data);
-        });
 
         if ($this->cookieConsentSimplified === false) {
             $builder->add('save', SubmitType::class, ['label' => 'ch_cookie_consent.save', 'attr' => ['class' => 'btn ch-cookie-consent__btn']]);
