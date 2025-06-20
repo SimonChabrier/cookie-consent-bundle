@@ -48,6 +48,7 @@
 .ch-cookie-consent__category-toggle {
   display: flex;
   align-items: center;
+  margin-right: 2rem;
 }
 
 @media screen and (max-width: 641px) {
@@ -56,7 +57,7 @@
   }
 }
 
-.ch-cookie-consent__category-toggle input {
+/* .ch-cookie-consent__category-toggle input {
   margin-right: 0.5rem;
   position: relative;
   width: 2.25rem;
@@ -85,7 +86,7 @@
 
 .ch-cookie-consent__category-toggle input:checked::before {
   transform: translateX(1rem);
-}
+} */
 
 .checkbox-switch {
   margin: 0;
