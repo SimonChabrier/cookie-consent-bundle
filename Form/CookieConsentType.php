@@ -9,14 +9,14 @@ declare(strict_types=1);
 
 namespace ConnectHolland\CookieConsentBundle\Form;
 
-use ConnectHolland\CookieConsentBundle\Cookie\CookieChecker;
-use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use ConnectHolland\CookieConsentBundle\Cookie\CookieChecker;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 
 class CookieConsentType extends AbstractType
 {
