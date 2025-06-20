@@ -84,7 +84,7 @@ class CookieConsentFormSubscriber implements EventSubscriberInterface
      */
     protected function getCookieConsentKey(Request $request): string
     {
-        return $request->cookies->get(CookieNameEnum::COOKIE_CONSENT_KEY_NAME) ?? uniqid();
+        return $request->cookies->get(CookieNameEnum::COOKIE_CONSENT_KEY_NAME) ?? bin2hex(random_bytes(16));
     }
 
     /**
