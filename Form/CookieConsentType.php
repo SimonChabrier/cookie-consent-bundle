@@ -60,7 +60,6 @@ class CookieConsentType extends AbstractType
             $event->setData($data);
         });
 
-
         if ($this->cookieConsentSimplified === false) {
             $builder->add('save', SubmitType::class, ['label' => 'ch_cookie_consent.save', 'attr' => ['class' => 'btn ch-cookie-consent__btn']]);
         } else {

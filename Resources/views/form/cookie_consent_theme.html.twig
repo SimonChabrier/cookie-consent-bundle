@@ -1,9 +1,8 @@
-{# {% block choice_row %} #}
 {% block checkbox_row %}
     <div class="ch-cookie-consent__category">
         <div class="ch-cookie-consent__category-toggle">
-                {{ form_widget(form) }}
-                {{ form_label(form, null, {translation_domain: translation_domain}) }}
+            {{ form_widget(form) }}
+            {{ form_label(form, null, {translation_domain: translation_domain}) }}
         </div>
         <div class="ch-cookie-consent__category-information">
             <h4 class="ch-cookie-consent__category-title">{{ ('ch_cookie_consent.'~name~'.title')|trans({}, 'CHCookieConsentBundle') }}</h4>
