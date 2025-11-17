@@ -50,7 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
                             "X-Requested-With": "XMLHttpRequest",
-                            Accept: "application/json, text/plain, */*", // Obligatoire pour iOS
                         },
                         body: serializeForm(cookieConsentForm, event.target),
                     }).then((response) => {
