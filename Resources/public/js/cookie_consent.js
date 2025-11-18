@@ -1,109 +1,100 @@
+// alert("cookie_consent.js loaded");
+// --- Helpers ---
+const log = (...args) => console.log("[CookieConsent]", ...args);
+const serializeForm = (form, clickedButton) => {
+    const formData = new FormData(form);
+    if (clickedButton?.name) formData.append(clickedButton.name, "");
+    return new URLSearchParams(formData).toString();
+};
+
+log("✅✅✅ Cookie Consent script loaded ✅✅✅");
+
+// --- Polyfill (si nécessaire) ---
+if (typeof window.CustomEvent !== "function") {
+    window.CustomEvent = class CustomEventPolyfill extends Event {
+        constructor(type, params = {}) {
+            super(type, params);
+            Object.assign(this, params);
+        }
+    };
+}
+
+// --- Main ---
 document.addEventListener("DOMContentLoaded", () => {
     const cookieConsent = document.querySelector(".ch-cookie-consent");
     const manageBtn = document.querySelector(".ch-cookie-consent__manage-btn");
     const cookieConsentForm = document.querySelector(".ch-cookie-consent__form");
-    const cookieConsentFormBtn = document.querySelectorAll(".ch-cookie-consent__btn");
-    const cookieConsentCategoryDetails = document.querySelector(".ch-cookie-consent__category-group");
-    const cookieConsentCategoryDetailsToggle = document.querySelector(".ch-cookie-consent__toggle-details");
+    const cookieConsentFormBtns = document.querySelectorAll(".ch-cookie-consent__btn");
+    const categoryDetails = document.querySelector(".ch-cookie-consent__category-group");
+    const detailsToggle = document.querySelector(".ch-cookie-consent__toggle-details");
 
-    // If cookie consent is direct child of body, assume it should be placed on top of the site pushing down the rest of the website
-    if (cookieConsent && cookieConsent.parentNode.nodeName === "BODY") {
-        if (cookieConsent.classList.contains("ch-cookie-consent--top")) {
-            document.body.style.marginTop = `${cookieConsent.offsetHeight}px`;
-
-            cookieConsent.style.position = "absolute";
-            cookieConsent.style.top = "0";
-            cookieConsent.style.left = "0";
-        } else {
-            document.body.style.marginBottom = `${cookieConsent.offsetHeight}px`;
-
-            cookieConsent.style.position = "fixed";
-            cookieConsent.style.bottom = "0";
-            cookieConsent.style.left = "0";
-        }
-    }
-
-    if (manageBtn) {
-        manageBtn.addEventListener("click", () => {
-            console.warn("Manage button clicked");
-            if (cookieConsent) {
-                console.warn("Cookie consent element found");
-                const isHidden = cookieConsent.style.display === "none" || getComputedStyle(cookieConsent).display === "none";
-                cookieConsent.style.display = isHidden ? "block" : "none";
-                manageBtn.style.display = isHidden ? "none" : "block";
-            }
+    // --- Positionnement du consentement ---
+    if (cookieConsent?.parentNode.nodeName === "BODY") {
+        const height = cookieConsent.offsetHeight;
+        const isTop = cookieConsent.classList.contains("ch-cookie-consent--top");
+        document.body.style[isTop ? "marginTop" : "marginBottom"] = `${height}px`;
+        Object.assign(cookieConsent.style, {
+            position: isTop ? "absolute" : "fixed",
+            top: isTop ? "0" : "",
+            bottom: !isTop ? "0" : "",
+            left: "0",
         });
     }
 
+    // --- Gestion du bouton "Manage" ---
+    manageBtn?.addEventListener("click", () => {
+        log("Manage cookie button clicked");
+        if (!cookieConsent) return;
+        const isHidden = getComputedStyle(cookieConsent).display === "none";
+        cookieConsent.style.display = isHidden ? "block" : "none";
+        manageBtn.style.display = isHidden ? "none" : "block";
+    });
+
+    // --- Soumission du formulaire ---
     if (cookieConsentForm) {
-        // Submit form via ajax
-        cookieConsentFormBtn.forEach((btn) => {
-            btn.addEventListener(
-                "click",
-                (event) => {
-                    event.preventDefault();
-
-                    const formAction = cookieConsentForm.action ? cookieConsentForm.action : location.href;
-
-                    fetch(formAction, {
+        console.warn("cookieConsentForm btn", cookieConsentFormBtns);
+        cookieConsentFormBtns.forEach((btn) => {
+            btn.addEventListener("click", async (event) => {
+                // alert("click");
+                // log("Form button clicked");
+                event.preventDefault();
+                try {
+                    const formAction = cookieConsentForm.action ? new URL(cookieConsentForm.action, window.location.origin).href : window.location.href;
+                    const response = await fetch(formAction, {
                         method: "POST",
+                        cache: "no-store",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded",
                             "X-Requested-With": "XMLHttpRequest",
                         },
                         body: serializeForm(cookieConsentForm, event.target),
-                    }).then((response) => {
-                        if (response.ok) {
-                            cookieConsent.style.display = "none";
-                            if (manageBtn) manageBtn.style.display = "block";
-                            const buttonEvent = new CustomEvent("cookie-consent-form-submit-successful", {
-                                detail: event.target,
-                            });
-                            document.dispatchEvent(buttonEvent);
-                            // Force <head> refresh to update when using UXTurbo or Turbo
-                            window.location.reload();
-                        }
                     });
 
-                    // Clear all styles from body to prevent the white margin at the end of the page
-                    document.body.style.marginBottom = null;
-                    document.body.style.marginTop = null;
-                },
-                false,
-            );
+                    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+                    // log("Form submitted successfully");
+                    cookieConsent.style.display = "none";
+                    manageBtn?.removeAttribute("style");
+                    document.dispatchEvent(new CustomEvent("cookie-consent-form-submit-successful", { detail: event.target }));
+                    window.location.href = window.location.href; // Plus fiable que reload()
+                } catch (error) {
+                    log("Error submitting form:", error);
+                    // Optionnel: afficher une erreur à l'utilisateur
+                } finally {
+                    document.body.style.marginTop = "";
+                    document.body.style.marginBottom = "";
+                }
+            });
         });
     }
 
-    if (cookieConsentCategoryDetails && cookieConsentCategoryDetailsToggle) {
-        cookieConsentCategoryDetailsToggle.addEventListener("click", () => {
-            const detailsIsHidden = cookieConsentCategoryDetails.style.display !== "block";
-            cookieConsentCategoryDetails.style.display = detailsIsHidden ? "block" : "none";
-            cookieConsentCategoryDetailsToggle.querySelector(".ch-cookie-consent__toggle-details-hide").style.display = detailsIsHidden ? "block" : "none";
-            cookieConsentCategoryDetailsToggle.querySelector(".ch-cookie-consent__toggle-details-show").style.display = detailsIsHidden ? "none" : "block";
+    // --- Toggle des détails ---
+    if (categoryDetails && detailsToggle) {
+        detailsToggle.addEventListener("click", () => {
+            const isHidden = categoryDetails.style.display !== "block";
+            categoryDetails.style.display = isHidden ? "block" : "none";
+            detailsToggle.querySelector(".ch-cookie-consent__toggle-details-hide").style.display = isHidden ? "block" : "none";
+            detailsToggle.querySelector(".ch-cookie-consent__toggle-details-show").style.display = isHidden ? "none" : "block";
         });
     }
 });
-
-const serializeForm = (form, clickedButton) => {
-    const formData = new FormData(form);
-    formData.append(clickedButton.getAttribute("name"), "");
-
-    const params = new URLSearchParams();
-    for (const [key, value] of formData.entries()) {
-        params.append(key, value);
-    }
-
-    return params.toString();
-};
-
-if (typeof window.CustomEvent !== "function") {
-    const CustomEventPolyfill = (event, params = { bubbles: false, cancelable: false, detail: undefined }) => {
-        const evt = document.createEvent("CustomEvent");
-        evt.initCustomEvent(event, params.bubbles, params.cancelable, params.detail);
-        return evt;
-    };
-
-    CustomEventPolyfill.prototype = window.Event.prototype;
-
-    window.CustomEvent = CustomEventPolyfill;
-}
