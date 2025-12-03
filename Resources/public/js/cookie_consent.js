@@ -7,7 +7,7 @@ const serializeForm = (form, clickedButton) => {
     return new URLSearchParams(formData).toString();
 };
 
-log("✅✅✅ Cookie Consent script loaded ✅✅✅");
+// log("✅✅✅ Cookie Consent script loaded ✅✅✅");
 
 // --- Polyfill (si nécessaire) ---
 if (typeof window.CustomEvent !== "function") {
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // --- Gestion du bouton "Manage" ---
     manageBtn?.addEventListener("click", () => {
-        log("Manage cookie button clicked");
+        // log("Manage cookie button clicked");
         if (!cookieConsent) return;
         const isHidden = getComputedStyle(cookieConsent).display === "none";
         cookieConsent.style.display = isHidden ? "block" : "none";
@@ -78,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     document.dispatchEvent(new CustomEvent("cookie-consent-form-submit-successful", { detail: event.target }));
                     window.location.href = window.location.href; // Plus fiable que reload()
                 } catch (error) {
-                    log("Error submitting form:", error);
+                    // log("Error submitting form:", error);
                     // Optionnel: afficher une erreur à l'utilisateur
                 } finally {
                     document.body.style.marginTop = "";
